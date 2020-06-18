@@ -23,3 +23,30 @@ h1, h2, h3, h4 {
 .bear-footer {
   color: #9595ff;
 }
+.btn-outline-warning {
+  color: #ff8800;
+  border-color: #ff8800;
+}
+.btn-outline-warning:hover {
+  color: #fff;
+  background-color: #ff8800;
+  border-color: #ff8800;
+}
+.btn-outline-danger {
+  color: #ff0800;
+  border-color: #ff0800;
+}
+.btn-outline-danger:hover {
+  color: #fff;
+  background-color: #ff0800;
+  border-color: #ff0800;
+}
+.btn-outline-success {
+  color: #00ff87;
+  border-color: #00ff87;
+}
+.btn-outline-success:hover {
+  color: #fff;
+  background-color: #00ff87;
+  border-color: #00ff87;
+}
