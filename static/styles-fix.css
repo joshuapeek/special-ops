@@ -10,3 +10,16 @@ h1, h2, h3, h4 {
   padding-bottom: 1.5rem;
   padding-top: 1.5rem;
 }
+.bg-dark {
+  background: rgb(17,1,48);
+  background: linear-gradient(90deg, rgba(17,1,48,1) 0%, rgba(9,74,121,1) 28%, rgba(191,255,0,1) 100%);
+}
+.navbar {
+  padding: .1rem 1rem;
+}
+.bear-raptor {
+  font-family: 'Cedarville Cursive', cursive;
+}
+.bear-footer {
+  color: #9595ff;
+}
