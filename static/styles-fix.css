@@ -50,3 +50,6 @@ h1, h2, h3, h4 {
   background-color: #00ff87;
   border-color: #00ff87;
 }
+.jumbotron {
+  border-radius: 0rem;
+}
