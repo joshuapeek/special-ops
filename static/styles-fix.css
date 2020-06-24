@@ -11,11 +11,26 @@ h1, h2, h3, h4 {
   padding-top: 1.5rem;
 }
 .bg-dark {
-  background: rgb(17,1,48);
-  background: linear-gradient(90deg, rgba(17,1,48,1) 0%, rgba(9,74,121,1) 28%, rgba(191,255,0,1) 100%);
+  /* background: rgb(17,1,48);*/
+  background: linear-gradient(90deg, rgba(9,74,121,1) 0%, rgba(9,74,121,1) 50%, rgba(0,255,135,1) 100%);
+  /*background-color: rgba(9,74,121,1) !important;*/
 }
 .navbar {
   padding: .1rem 1rem;
+}
+.dropdown-menu {
+  background: linear-gradient(180deg, rgba(9,74,121,1) 0%, rgba(59,124,171,1) 100%);
+  margin: 0rem;
+  border:0px;
+  border-radius: 0px 0px 10px 10px;
+}
+.dropdown-item {
+  color: #fff;
+}
+.dropdown-item:hover {
+  color: rgba(17,1,48,1);
+  /*background-color: rgba(191,255,0,1);*/
+  background-color: #00ff87;
 }
 .bear-raptor {
   font-family: 'Cedarville Cursive', cursive;
