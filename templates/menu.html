@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand bear-raptor" href="{{url_for('mainPage')}}"><b>bear raptor</b></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+
+      <!-- Roles Links -->
+      {% if roles is defined %}
+      <li class="nav-item dropdown px-2">
+        <a class="nav-link dropdown-toggle" href="#" id="rolesdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Roles</a>
+        <div class="dropdown-menu" aria-labelledby="rolesdropdown">
+          {% for i in roles %}
+            <a class="dropdown-item" href="#">{{i.title}}</a>
+          {% endfor %}
+        </div>
+      </li>
+      {% endif %}
+      <!-- END Roles Links -->
+
+      <!-- Features Links -->
+      {% if features is defined %}
+      <li class="nav-item dropdown px-2">
+        <a class="nav-link dropdown-toggle" href="#" id="featuresdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
+        <div class="dropdown-menu" aria-labelledby="featuresdropdown">
+          {% for i in features %}
+            <a class="dropdown-item" href="{{url_for('featurePage',
+              project_id=i.project.id, feature_id=i.id)}}">{{i.title}}</a>
+          {% endfor %}
+        </div>
+      </li>
+      {% endif %}
+      <!-- END Features Links -->
+
+    </ul>
+    <!-- Search Function in the Nav Bar -->
+    <!--
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    -->
+  </div>
+</nav>
