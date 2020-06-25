@@ -51,17 +51,28 @@
               <div class="col-md-12">
                 <div class="card">
                   <h5 class="card-header feature-title">{{project.shortname}}-{{feature.shortname}}-{{i.id}}
-                    {% if i.scope == 'in' %}
-                      <button type="button" class="btn btn-outline-success btn-sm float-right">In-Scope</button>
-                    {% endif %}
+                    {% if scope != 'out' %}
+                      {% if i.scope == 'in' %}
+                        <button type="button" class="btn btn-outline-success btn-sm float-right">In-Scope</button>
+                      {% endif %}
 
-                    {% if i.scope == 'out' %}
-                      <button type="button" class="btn btn-outline-danger btn-sm float-right">Out-of-Scope</button>
+                      {% if i.scope == 'out' %}
+                        <button type="button" class="btn btn-outline-danger btn-sm float-right">Out-of-Scope</button>
+                      {% endif %}
                     {% endif %}
                   </h5>
                   <div class="card-body">
                     <p class="card-text">
                       <b>As a(n) {{i.role.title}}, I want {{i.want}}, so that {{i.why}}.</b>
+
+                      <u>Acceptance Criteria</u>
+                      <ol>
+                        {% for x in ac %}
+                          {% if x.story_id == i.id %}
+                            <li>{{x.criteria}}</li>
+                          {% endif %}
+                        {% endfor %}
+                      </ol>
                     </p>
                     <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
                   </div>

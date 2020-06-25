@@ -89,5 +89,21 @@ class Story(Base):
             'feature_id': self.feature_id
         }
 
+# MVP table
+class AcceptanceCriteria(Base):
+    __tablename__ = 'acceptancecriteria'
+    id = Column(Integer, primary_key=True)
+    criteria = Column(String(500))
+    story_id = Column(Integer, ForeignKey('story.id'))
+    story = relationship(Story)
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'criteria': self.criteria,
+            'story_id': self.story_id,
+        }
+
 engine = create_engine('sqlite:///special-ops.db')
 Base.metadata.create_all(engine)

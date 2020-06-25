@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask import url_for, flash, jsonify
 from sqlalchemy import create_engine, and_, or_
 from sqlalchemy.orm import sessionmaker
-from database_setup import Project, Role
+from database_setup import Project, Role, AcceptanceCriteria
 from database_setup import Feature, Story, Base
 from sqlalchemy.pool import StaticPool
 from flask import session as login_session
@@ -75,6 +75,11 @@ def featurePage(project_id, feature_id):
         if i.id == feature.id:
             featureids.append(i.id)
     stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
+    storyids = []
+    for i in stories:
+        # compile list of story ids in stories
+        storyids.append(i.id)
+    ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
     scope = feature.scope
     if scope == 'in':
         for i in stories:
@@ -82,7 +87,7 @@ def featurePage(project_id, feature_id):
                 scope = 'contains'
     return render_template('feature-page.html', project=project, roles=roles,
                             feature=feature, features=features,
-                            stories=stories, scope=scope)
+                            stories=stories, ac=ac, scope=scope)
 
 # Role Testing Page
 # displays all Roles and Features in selected Project
