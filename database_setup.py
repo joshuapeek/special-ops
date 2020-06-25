@@ -11,13 +11,17 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(250), nullable=False)
     description = Column(String(500))
+    # should always be set to active, or complete
+    # drives appearance on super dash
+    status = Column(String(50))
 
     @property
     def serialize(self):
         return {
             'id': self.id,
             'title': self.title,
-            'description': self.description
+            'description': self.description,
+            'status': self.status
         }
 
 # MVP table
