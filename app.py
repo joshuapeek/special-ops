@@ -37,7 +37,7 @@ def mainPage():
 # displays all Roles and Features in selected Project
 @app.route('/project/<int:project_id>')
 def projectDash(project_id):
-    project = session.query(Project).filter_by(project_id=project_id).one()
+    project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
     features = session.query(Feature).filter_by(project_id=project_id).all()
     return render_template('project-dash.html', project=project, roles=roles,
@@ -47,7 +47,7 @@ def projectDash(project_id):
 # displays all Roles and Features in selected Project
 @app.route('/project/<int:project_id>/feature/<int:feature_id>')
 def featurePage(project_id, feature_id):
-    project = session.query(Project).filter_by(project_id=project_id).one()
+    project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
     features = session.query(Feature).filter_by(project_id=project_id).all()
     stories = session.query(Story).filter_by(feature_id=feature_id).all()
@@ -58,7 +58,7 @@ def featurePage(project_id, feature_id):
 # displays all Roles and Features in selected Project
 @app.route('/project/<int:project_id>/role/<int:role_id>')
 def roleTestPage(project_id, role_id):
-    project = session.query(Project).filter_by(project_id=project_id).one()
+    project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
     features = session.query(Feature).filter_by(project_id=project_id).all()
     stories = session.query(Story).filter_by(role_id=role_id).all()
