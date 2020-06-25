@@ -58,8 +58,8 @@ def projectDash(project_id):
         for i in stories:
             if i.scope == 'out':
                 scope = 'contains'
-    return render_template('project-dash.html', project=project, scope=scope,
-                            roles=roles, features=features)
+    return render_template('project-dash.html', project=project, roles=roles,
+                            features=features, scope=scope)
 
 # Feature Page
 # displays all Roles and Features in selected Project
@@ -67,10 +67,17 @@ def projectDash(project_id):
 def featurePage(project_id, feature_id):
     project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
+    feature = session.query(Feature).filter_by(id=feature_id).one()
     features = session.query(Feature).filter_by(project_id=project_id).all()
     stories = session.query(Story).filter_by(feature_id=feature_id).all()
+    scope = feature.scope
+    if scope == 'in':
+        for i in stories:
+            if i.scope == 'out':
+                scope = 'contains'
     return render_template('feature-page.html', project=project, roles=roles,
-                            features=features, stories=stories)
+                            feature=feature, features=features,
+                            stories=stories, scope=scope)
 
 # Role Testing Page
 # displays all Roles and Features in selected Project

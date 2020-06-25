@@ -14,9 +14,9 @@
           <!-- Example row of columns -->
           <div class="row">
             <div class="col-md-12">
-              <h2>{{project.title}}</h2>
+              <h2>{{feature.title}}</h2>
               <p>
-                {{project.description}}
+                {{feature.description}}
               </p>
               <p>
                 {% if scope == 'in' %}
@@ -28,7 +28,7 @@
                 {% endif %}
 
                 {% if scope == 'out' %}
-                  <button type="button" class="btn btn-outline-danger btn-sm">Out-of-Scope Features</button>
+                  <button type="button" class="btn btn-outline-danger btn-sm">Out-of-Scope Stories</button>
                 {% endif %}
               </p>
 
@@ -44,26 +44,26 @@
           <!-- Optional Section Header -->
           <div class="row">
             <div class="col-md-12">
-              <h3>Features</h3>
+              <h3>Stories</h3>
             </div>
           </div>
 
-          {% for i in features %}
+          {% for i in stories %}
 
           <div class="row user-story">
             <div class="col-md-12">
               <div class="card">
                 <h5 class="card-header">{{i.title}}
-                  {% if i.scope == 'in'%}
+                  {% if i.scope == 'in' %}
                     <button type="button" class="btn btn-outline-success btn-sm float-right">Fully In-Scope</button>
                   {% endif %}
 
                   {% if i.scope == 'contains' %}
-                  <button type="button" class="btn btn-outline-warning btn-sm float-right">Contains Out-of-Scope Stories</button>
+                    <button type="button" class="btn btn-outline-warning btn-sm float-right">Contains Out-of-Scope Stories</button>
                   {% endif %}
 
                   {% if i.scope == 'out' %}
-                  <button type="button" class="btn btn-outline-danger btn-sm float-right">Feature is Out-of-Scope</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm float-right">Feature is Out-of-Scope</button>
                   {% endif %}
 
                 </h5>
