@@ -48,6 +48,7 @@ class Feature(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(250), nullable=False)
     description = Column(String(500))
+    scope = Column(String(25), nullable=False)
     project_id = Column(Integer, ForeignKey('project.id'))
     project = relationship(Project)
 
@@ -57,6 +58,7 @@ class Feature(Base):
             'id': self.id,
             'title': self.title,
             'description': self.description,
+            'scope': self.scope,
             'project_id': self.project_id
         }
 
