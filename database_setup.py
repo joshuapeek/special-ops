@@ -13,7 +13,7 @@ class Project(Base):
     description = Column(String(500))
     # should always be set to active, or complete
     # drives appearance on super dash
-    status = Column(String(50))
+    status = Column(String(50), nullable=False)
 
     @property
     def serialize(self):
