@@ -40,8 +40,22 @@ def projectDash(project_id):
     project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
     features = session.query(Feature).filter_by(project_id=project_id).all()
-    return render_template('project-dash.html', project=project, roles=roles,
-                            features=features)
+    featureids = []
+    for i in features:
+        # compile list of feature ids in project
+        featureids.append(i.id)
+        # ...while checking for out-of-scope features in each feature
+        if i.scope == 'out':
+            scope = 'out'
+    # stories = session.query(Story).filter_by(project_id=project_id).all()
+    stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
+    scope = 'in'
+        # check for out-of-scope stories within in each feature
+    for i in stories:
+        if i.scope == 'out':
+            scope = 'contains'
+    return render_template('project-dash.html', project=project, scope=scope,
+                            roles=roles, features=features)
 
 # Feature Page
 # displays all Roles and Features in selected Project

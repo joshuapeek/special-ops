@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+  {% include "head.html" %}
+
+  <body>
+
+    {% include "menu.html" %}
+
+    <main role="main">
+      <section class="bg-light p-4">
+        <!-- Feature Header -->
+        <div class="container">
+          <!-- Example row of columns -->
+          <div class="row">
+            <div class="col-md-12">
+              <h2>Feature Title</h2>
+              <p>
+                This text will describe the general goal of the feature, as well as notable things it will <i>not</i> cover.
+                It may also reference other related features, which will be defined with their own separate pages and stories.
+              </p>
+              <p>
+                {% if scope == 'in'%}
+                  <button type="button" class="btn btn-outline-success btn-sm">Fully In-Scope</button>
+                {% endif %}
+
+                {% if scope == 'contains' %}
+                <button type="button" class="btn btn-outline-warning btn-sm">Contains Out-of-Scope Stories</button>
+                {% endif %}
+
+                {% if scope == 'out' %}
+                <button type="button" class="btn btn-outline-danger btn-sm">Feature is Out-of-Scope</button>
+                {% endif %}
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- User Stories -->
+      <section class="p-4">
+
+        <div class="container">
+          <!-- Optional Section Header -->
+          <div class="row">
+            <div class="col-md-12">
+              <h3>User Stories</h3>
+            </div>
+          </div>
+
+          <div class="row user-story">
+            <div class="col-md-12">
+              <div class="card">
+                <h5 class="card-header">User Story: ###-###-##
+                  <button type="button" class="btn btn-outline-success btn-sm float-right">In-Scope</button>
+                </h5>
+                <div class="card-body">
+                  <h5 class="card-title">As a ____, I want ____, so that ____.</h5>
+                  <p class="card-text">
+                    <u>Acceptance Criteria</u>
+                    <ol>
+                      <li>Criteria 1</li>
+                      <li>Criteria 2</li>
+                    </ol>
+                  </p>
+                  <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user-story">
+            <div class="col-md-12">
+              <div class="card">
+                <h5 class="card-header">User Story: ###-###-##
+                  <button type="button" class="btn btn-outline-danger btn-sm float-right">Out of Scope</button>
+                </h5>
+                <div class="card-body">
+                  <h5 class="card-title">As a ____, I want ____, so that ____.</h5>
+                  <p class="card-text">
+                    <u>Acceptance Criteria</u>
+                    <ol>
+                      <li>Criteria 1</li>
+                      <li>Criteria 2</li>
+                    </ol>
+                  </p>
+                  <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+      </section>
+
+        <hr>
+
+    </main>
+
+    {% include "footer.html" %}
+
+  </body>
+</html>
