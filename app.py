@@ -41,19 +41,23 @@ def projectDash(project_id):
     roles = session.query(Role).filter_by(project_id=project_id).all()
     features = session.query(Feature).filter_by(project_id=project_id).all()
     featureids = []
+    # begin with assumption that project is in scope
+    scope = 'in'
     for i in features:
         # compile list of feature ids in project
         featureids.append(i.id)
-        # ...while checking for out-of-scope features in each feature
+        # ...while checking for out-of-scope features in project
+        # ......if any are found, change scope to 'out'
         if i.scope == 'out':
             scope = 'out'
-    # stories = session.query(Story).filter_by(project_id=project_id).all()
     stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
-    scope = 'in'
-        # check for out-of-scope stories within in each feature
-    for i in stories:
-        if i.scope == 'out':
-            scope = 'contains'
+    # if project still in scope,
+    # ...check for out-of-scope stories within in each feature
+    # ......if any are found, change scope to 'contains'
+    if scope != 'out':
+        for i in stories:
+            if i.scope == 'out':
+                scope = 'contains'
     return render_template('project-dash.html', project=project, scope=scope,
                             roles=roles, features=features)
 
@@ -85,7 +89,7 @@ def roleTestPage(project_id, role_id):
 # JSON Super page:
 # displays all projects in db, serialized
 @app.route('/super/JSON')
-def superJSON(project_id):
+def superJSON():
     projects = session.query(Project).all()
     return jsonify(Projects=[i.serialize for i in projects])
 
