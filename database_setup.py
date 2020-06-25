@@ -10,6 +10,7 @@ class Project(Base):
     __tablename__ = 'project'
     id = Column(Integer, primary_key=True)
     title = Column(String(250), nullable=False)
+    shortname = Column(String(25), nullable=False)
     description = Column(String(500))
     # should always be set to active, or complete
     # drives appearance on super dash
@@ -20,6 +21,7 @@ class Project(Base):
         return {
             'id': self.id,
             'title': self.title,
+            'shortname': self.shortname,
             'description': self.description,
             'status': self.status
         }
@@ -47,6 +49,7 @@ class Feature(Base):
     __tablename__ = 'feature'
     id = Column(Integer, primary_key=True)
     title = Column(String(250), nullable=False)
+    shortname = Column(String(25), nullable=False)
     description = Column(String(500))
     scope = Column(String(25), nullable=False)
     project_id = Column(Integer, ForeignKey('project.id'))
@@ -57,6 +60,7 @@ class Feature(Base):
         return {
             'id': self.id,
             'title': self.title,
+            'shortname': self.shortname,
             'description': self.description,
             'scope': self.scope,
             'project_id': self.project_id

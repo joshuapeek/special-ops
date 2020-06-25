@@ -69,7 +69,12 @@ def featurePage(project_id, feature_id):
     roles = session.query(Role).filter_by(project_id=project_id).all()
     feature = session.query(Feature).filter_by(id=feature_id).one()
     features = session.query(Feature).filter_by(project_id=project_id).all()
-    stories = session.query(Story).filter_by(feature_id=feature_id).all()
+    featureids = []
+    for i in features:
+        # compile list of feature ids in project
+        if i.id == feature.id:
+            featureids.append(i.id)
+    stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
     scope = feature.scope
     if scope == 'in':
         for i in stories:

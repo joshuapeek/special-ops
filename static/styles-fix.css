@@ -72,3 +72,10 @@ h1, h2, h3, h4 {
 .jumbotron {
   border-radius: 0rem;
 }
+.feature-description {
+  margin-bottom: .25rem;
+  font-size: .8rem;
+}
+.feature-title{
+  padding: .25rem 1.25rem;
+}
