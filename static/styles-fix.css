@@ -79,3 +79,9 @@ h1, h2, h3, h4 {
 .feature-title{
   padding: .25rem 1.25rem;
 }
+.ghost-card {
+  border: 0px;
+  display: contents;
+  color: #aaa;
+  font-size: .9rem;
+}

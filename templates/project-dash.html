@@ -48,36 +48,56 @@
             </div>
           </div>
 
-          {% for i in features %}
+          <div class="row">
+            {% for i in features %}
 
-          <div class="row user-story">
-            <div class="col-md-12">
-              <div class="card">
-                <h5 class="card-header">{{i.title}}
-                  {% if i.scope == 'in'%}
-                    <button type="button" class="btn btn-outline-success btn-sm float-right">Fully In-Scope</button>
-                  {% endif %}
 
-                  {% if i.scope == 'contains' %}
-                  <button type="button" class="btn btn-outline-warning btn-sm float-right">Contains Out-of-Scope Stories</button>
-                  {% endif %}
+              <div class="col-md-6 user-story">
+                <div class="card">
+                  <h5 class="card-header">{{i.title}}
+                    {% if i.scope == 'in'%}
+                      <button type="button" class="btn btn-outline-success btn-sm float-right">Fully In-Scope</button>
+                    {% endif %}
 
-                  {% if i.scope == 'out' %}
-                  <button type="button" class="btn btn-outline-danger btn-sm float-right">Feature is Out-of-Scope</button>
-                  {% endif %}
+                    {% if i.scope == 'contains' %}
+                    <button type="button" class="btn btn-outline-warning btn-sm float-right">Contains Out-of-Scope Stories</button>
+                    {% endif %}
 
-                </h5>
+                    {% if i.scope == 'out' %}
+                    <button type="button" class="btn btn-outline-danger btn-sm float-right">Feature is Out-of-Scope</button>
+                    {% endif %}
+
+                  </h5>
+                  <div class="card-body">
+                    <p class="card-text">
+                      {{i.description}}
+                    </p>
+                    <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+                  </div>
+                </div>
+              </div>
+
+            {% endfor %}
+
+
+            <!-- Ghost -->
+            <div class="col-md-6 user-story">
+              <div class="card ghost-card">
                 <div class="card-body">
-                  <p class="card-text">
-                    {{i.description}}
-                  </p>
-                  <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+                  <center>
+                    <a type="button" data-toggle="modal" data-target="#add-feature" href="#add-feature">
+                      <img src="../../static/images/plus.png" width="10%">
+                    </a>
+                    <p class="card-text">
+                      Add a Feature
+                    </p>
+                  </center>
                 </div>
               </div>
             </div>
-          </div>
+            <!-- End Ghost -->
 
-          {% endfor %}
+          </div>
 
         </div> <!-- /container -->
       </section>
