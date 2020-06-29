@@ -51,6 +51,7 @@ class Feature(Base):
     title = Column(String(250), nullable=False)
     shortname = Column(String(25), nullable=False)
     description = Column(String(500))
+    # should always be 'in' or 'out'
     scope = Column(String(25), nullable=False)
     project_id = Column(Integer, ForeignKey('project.id'))
     project = relationship(Project)

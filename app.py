@@ -24,7 +24,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-# BASIC READ PAGES
+# BASIC READ PAGES---------------------
 
 # Super Dash
 # displays all Projects in Bear Raptor
@@ -99,6 +99,28 @@ def roleTestPage(project_id, role_id):
     stories = session.query(Story).filter_by(role_id=role_id).all()
     return render_template('role-test-page.html', project=project, roles=roles,
                             features=features, stories=stories)
+
+
+# CREATE Pages-------------------------
+
+# Create Feature Page
+# receives data, creates feature, returns to project page
+@app.route('/project/<int:project_id>/createfeature', methods=['GET', 'POST'])
+def createFeature(project_id):
+    project = session.query(Project).filter_by(id=project_id).one()
+    if request.method == 'POST':
+        createFeature = Feature(title=request.form['title'],
+                        shortname=request.form['shortname'],
+                        description=request.form['description'],
+                        scope=request.form['scope'],
+                        project_id=project.id)
+        session.add(createFeature)
+        session.commit()
+        session.refresh(createFeature)
+        flash("New Feature Created!")
+        return redirect(url_for('projectDash', project_id=project.id))
+    else:
+        return redirect(url_for('projectDash', project_id=project.id))
 
 
 # JSON Pages---------------------------
