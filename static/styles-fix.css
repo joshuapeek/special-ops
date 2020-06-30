@@ -2,6 +2,9 @@
 body {
   padding-top: 2.6rem;
   font-family: 'Lato', sans-serif;
+  background-image: url(images/wave.png);
+  background-repeat: no-repeat;
+  background-position: bottom;
 }
 h1, h2, h3, h4 {
   font-family: 'Marcellus', serif;
@@ -69,8 +72,16 @@ h1, h2, h3, h4 {
   background-color: #00ff87;
   border-color: #00ff87;
 }
+.btn-primary {
+  background-color: rgba(9,74,121,1);
+}
+.btn-primary:hover {
+  background-color: rgba(59,124,171,1);
+  border-color: rgba(59,124,171,1);
+}
 .jumbotron {
   border-radius: 0rem;
+  background-color: transparent;
 }
 .feature-description {
   margin-bottom: .25rem;
@@ -84,4 +95,7 @@ h1, h2, h3, h4 {
   display: contents;
   color: #aaa;
   font-size: .9rem;
+}
+.project-card {
+  padding: 15px;
 }

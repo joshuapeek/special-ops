@@ -103,6 +103,23 @@ def roleTestPage(project_id, role_id):
 
 # CREATE Pages-------------------------
 
+# Create Project Page
+# requires no data, just creates a project
+@app.route('/createproject', methods=['GET', 'POST'])
+def createProject():
+    if request.method == 'POST':
+        createProject = Project(title=request.form['title'],
+                        shortname=request.form['shortname'],
+                        description=request.form['description'],
+                        status=request.form['status'])
+        session.add(createProject)
+        session.commit()
+        session.refresh(createProject)
+        flash("New Project Created!")
+        return redirect(url_for('mainPage'))
+    else:
+        return redirect(url_for('mainPage'))
+
 # Create Feature Page
 # receives data, creates feature, returns to project page
 @app.route('/project/<int:project_id>/createfeature', methods=['GET', 'POST'])

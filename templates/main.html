@@ -6,6 +6,7 @@
   <body>
 
     {% include "menu.html" %}
+    {% include "modals/createproject.html" %}
 
     <main role="main">
 
@@ -22,12 +23,25 @@
         <!-- Example row of columns -->
         <div class="row">
           {% for i in projects %}
-            <div class="col-md-4">
+            <div class="col-md-4 project-card">
               <h2>{{i.title}}</h2>
               <p>{{i.description}}</p>
               <p><a class="btn btn-secondary" href="{{url_for('projectDash', project_id=i.id)}}" role="button">View details &raquo;</a></p>
             </div>
           {% endfor %}
+
+          <div class="col-md-4 project-card">
+            <center>
+              <a type="button" data-toggle="modal" data-target="#create-project" href="#create-project">
+                <img src="../../static/images/plus.png" width="20%" style="padding-top:5%">
+              </a>
+              <p class="card-text">
+                Add a Project
+              </p>
+            </center>
+
+          </div>
+
         </div>
 
         <hr>
