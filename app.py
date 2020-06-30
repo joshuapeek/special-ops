@@ -139,6 +139,26 @@ def createFeature(project_id):
     else:
         return redirect(url_for('projectDash', project_id=project.id))
 
+# Create Story Page
+# receives data, creates feature, returns to project page
+@app.route('/project/<int:project_id>/feature/<int:feature_id>/createstory', methods=['GET', 'POST'])
+def createStory(project_id, feature_id):
+    project = session.query(Project).filter_by(id=project_id).one()
+    feature = session.query(Feature).filter_by(id=feature_id).one()
+    if request.method == 'POST':
+        createStory = Story(scope=request.form['scope'],
+                        want=request.form['want'],
+                        why=request.form['why'],
+                        role_id=request.form['role'],
+                        feature_id=feature_id)
+        session.add(createStory)
+        session.commit()
+        session.refresh(createStory)
+        flash("New Story Created!")
+        return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
+    else:
+        return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
+
 
 # JSON Pages---------------------------
 

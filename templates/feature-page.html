@@ -4,6 +4,7 @@
   <body>
 
     {% include "menu.html" %}
+    {% include "modals/createstory.html" %}
 
     <main role="main">
       <section class="bg-light p-4">
@@ -63,8 +64,9 @@
                   </h5>
                   <div class="card-body">
                     <p class="card-text">
-                      <b>As a(n) {{i.role.title}}, I want {{i.want}}, so that {{i.why}}.</b>
-
+                      <p>
+                        <b>As a(n) {{i.role.title}}, I want {{i.want}}, so that {{i.why}}.</b>
+                      </p>
                       <u>Acceptance Criteria</u>
                       <ol>
                         {% for x in ac %}
@@ -80,6 +82,23 @@
               </div>
             </div>
           {% endfor %}
+
+          <!-- Ghost -->
+          <div class="col-md-12 user-story">
+            <div class="card ghost-card">
+              <div class="card-body">
+                <center>
+                  <a type="button" data-toggle="modal" data-target="#create-story" href="#create-story">
+                    <img src="../../../static/images/plus.png" width="10%" style="max-width:4rem;max-height:4rem">
+                  </a>
+                  <p class="card-text">
+                    Add a Story
+                  </p>
+                </center>
+              </div>
+            </div>
+          </div>
+          <!-- End Ghost -->
 
         </div> <!-- /container -->
       </section>
