@@ -160,6 +160,38 @@ def createStory(project_id, feature_id):
         return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
 
 
+# Delete-Confirm Pages-------------------------
+
+# Delete-Confirm Project
+# receives project id, warns deletion removes all ac, stories, and features
+# offers confirm or cancel, confirm passes to deletion & cancel returns
+@app.route('/confirm/deleteproject/<int:project_id>')
+def confirmDeleteProject(project_id):
+    project = session.query(Project).filter_by(id=project_id).one()
+    features = session.query(Feature).filter_by(project_id=project_id).all()
+    stories = session.query(Story).filter_by()
+    featureids = []
+    featureQuantity = 0
+    for i in features:
+        # compile list of feature ids in project
+        featureids.append(i.id)
+        featureQuantity += 1
+    stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
+    storyids = []
+    storyQuantity = 0
+    for i in stories:
+        # compile list of story ids in stories
+        storyids.append(i.id)
+        storyQuantity += 1
+    ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
+    acQuantity = 0
+    for i in ac:
+        acQuantity += 1
+    return render_template('delete-project.html', project=project,
+                            fq=featureQuantity, sq=storyQuantity,
+                            acq=acQuantity)
+
+
 # JSON Pages---------------------------
 
 # JSON Super page:

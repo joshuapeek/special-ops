@@ -26,14 +26,17 @@
             <div class="col-md-4 project-card">
               <h2>{{i.title}}</h2>
               <p>{{i.description}}</p>
-              <p><a class="btn btn-secondary" href="{{url_for('projectDash', project_id=i.id)}}" role="button">View details &raquo;</a></p>
+              <p>
+                <a class="btn btn-secondary btn-sm" href="{{url_for('projectDash', project_id=i.id)}}" role="button">View details &raquo;</a>
+                <a class="btn btn-outline-danger btn-sm" href="{{url_for('confirmDeleteProject', project_id=i.id)}}" role="button">Delete</a>
+              </p>
             </div>
           {% endfor %}
 
           <div class="col-md-4 project-card">
             <center>
               <a type="button" data-toggle="modal" data-target="#create-project" href="#create-project">
-                <img src="../../static/images/plus.png" width="20%" style="padding-top:5%">
+                <img src="../../static/images/plus.png" width="15%" style="padding-top:5%">
               </a>
               <p class="card-text">
                 Add a Project
