@@ -47,10 +47,12 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12 order-md-1">
-              <form class="needs-validation" action='#' method='post' novalidate>
+              <form class="needs-validation" action="{{url_for('deleteProject', project_id=project.id)}}" method='post' novalidate>
                 <div class="row">
                   <div class="col-md-6 mb-3">
-                    <button class="btn btn-danger btn-lg btn-block" type="Edit">Continue</button>
+                    <form>
+                      <button class="btn btn-danger btn-lg btn-block" type="Edit">Continue</button>
+                    </form>
                   </div>
               </form>
                   <div class="col-md-6 mb-3">

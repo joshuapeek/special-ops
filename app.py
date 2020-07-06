@@ -169,7 +169,6 @@ def createStory(project_id, feature_id):
 def confirmDeleteProject(project_id):
     project = session.query(Project).filter_by(id=project_id).one()
     features = session.query(Feature).filter_by(project_id=project_id).all()
-    stories = session.query(Story).filter_by()
     featureids = []
     featureQuantity = 0
     for i in features:
@@ -190,6 +189,38 @@ def confirmDeleteProject(project_id):
     return render_template('delete-project.html', project=project,
                             fq=featureQuantity, sq=storyQuantity,
                             acq=acQuantity)
+
+
+# Delete Pages-------------------------
+
+# receives project id after confirmation, grabs features, stories, ac
+# deletes ac, stories, features, and project, returns to main
+@app.route('/delete/project/<int:project_id>', methods=['GET', 'POST'])
+def deleteProject(project_id):
+    if request.method == 'POST':
+        project = session.query(Project).filter_by(id=project_id).one()
+        features = session.query(Feature).filter_by(project_id=project_id).all()
+        featureids = []
+        for i in features:
+            # compile list of feature ids in project
+            featureids.append(i.id)
+        stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
+        storyids = []
+        for i in stories:
+            storyids.append(i.id)
+        ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
+        for i in ac:
+            session.delete(i)
+        for i in stories:
+            session.delete(i)
+        for i in features:
+            session.delete(i)
+        session.delete(project)
+        session.commit()
+        flash("Project & All Components Removed")
+        return redirect(url_for('mainPage'))
+    else:
+        return redirect(url_for('mainPage'))
 
 
 # JSON Pages---------------------------
