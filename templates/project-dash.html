@@ -21,7 +21,7 @@
               </p>
               <p>
                 {% if scope == 'in' %}
-                  <button type="button" class="btn btn-outline-success btn-sm">Fully In-Scope</button>
+                  <button type="button" class="btn btn-outline-success btn-sm">In-Scope</button>
                 {% endif %}
 
                 {% if scope == 'contains' %}
@@ -45,6 +45,60 @@
           <!-- Optional Section Header -->
           <div class="row">
             <div class="col-md-12">
+              <h3>Roles</h3>
+            </div>
+          </div>
+
+          <div class="row">
+            {% for i in roles %}
+
+
+              <div class="col-md-3 user-story">
+                <div class="card">
+                  <!--<h5 class="card-header">{{i.title}}
+                  </h5>-->
+                  <div class="card-body">
+                    <center>
+                      <img width="30%" src="../../../../static/images/profile.png">
+                      <h5 data-toggle="tooltip" title="{{i.description}}">
+                        {{i.title}}
+                      </h5>
+                    </center>
+                    <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+                  </div>
+                </div>
+              </div>
+
+            {% endfor %}
+
+
+            <!-- Ghost -->
+            <div class="col-md-3 user-story">
+              <div class="card ghost-card">
+                <div class="card-body">
+                  <center>
+                    <a type="button" data-toggle="modal" data-target="#create-role" href="#create-role">
+                      <img src="../../static/images/plus.png" width="25%">
+                    </a>
+                    <p class="card-text">
+                      Add a Role
+                    </p>
+                  </center>
+                </div>
+              </div>
+            </div>
+            <!-- End Ghost -->
+
+          </div>
+
+        </div> <!-- /container -->
+
+        <br class="m-4">
+
+        <div class="container">
+          <!-- Optional Section Header -->
+          <div class="row">
+            <div class="col-md-12">
               <h3>Features</h3>
             </div>
           </div>
@@ -57,17 +111,17 @@
                 <div class="card">
                   <h5 class="card-header">{{i.title}}
                     {% if i.scope == 'in'%}
-                      <button type="button" class="btn btn-outline-success btn-sm float-right">Fully In-Scope</button>
+                      <span class="badge badge-success">In-Scope</span>
                     {% endif %}
 
                     {% if i.scope == 'contains' %}
-                    <button type="button" class="btn btn-outline-warning btn-sm float-right">Contains Out-of-Scope Stories</button>
+                      <span class="badge badge-warning">Contains Out-of-Scope Stories</span>
                     {% endif %}
 
                     {% if i.scope == 'out' %}
-                    <button type="button" class="btn btn-outline-danger btn-sm float-right">Feature is Out-of-Scope</button>
+                      Contains Out-of-Scope Stories
+                      <span class="badge badge-danger">Out-of-Scope</span>
                     {% endif %}
-
                   </h5>
                   <div class="card-body">
                     <p class="card-text">
@@ -101,6 +155,8 @@
           </div>
 
         </div> <!-- /container -->
+
+
       </section>
 
         <hr>
