@@ -139,6 +139,23 @@ def createFeature(project_id):
     else:
         return redirect(url_for('projectDash', project_id=project.id))
 
+# Create Role Page
+# receives data, creates feature, returns to project page
+@app.route('/project/<int:project_id>/createRole', methods=['GET', 'POST'])
+def createRole(project_id):
+    project = session.query(Project).filter_by(id=project_id).one()
+    if request.method == 'POST':
+        createRole = Role(title=request.form['title'],
+                        description=request.form['description'],
+                        project_id=project.id)
+        session.add(createRole)
+        session.commit()
+        session.refresh(createRole)
+        flash("New Role Created!")
+        return redirect(url_for('projectDash', project_id=project.id))
+    else:
+        return redirect(url_for('projectDash', project_id=project.id))
+
 # Create Story Page
 # receives data, creates feature, returns to project page
 @app.route('/project/<int:project_id>/feature/<int:feature_id>/createstory', methods=['GET', 'POST'])
