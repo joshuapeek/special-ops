@@ -209,13 +209,13 @@ def confirmDelete(project_id, type, type_id):
                                 acq=acQuantity, type=type, type_id=type_id)
 
     if type == 'Role':
-        role = session.query(Role).filter(Role.role_id(type_id)).one()
+        role = session.query(Role).filter_by(id=type_id).one()
         return render_template('delete-confirm.html', project=project,
                                 type=type, type_id=type_id, role=role)
 
     if type == 'Feature':
-        feature = session.query(Feature).filter(Feature.feature_id(type_id)).one()
-        stories = session.query(Story).filter(Story.feature_id(type_id)).all()
+        feature = session.query(Feature).filter_by(id=type_id).one()
+        stories = session.query(Story).filter_by(feature_id=feature.id).all()
         storyids = []
         storyQuantity = 0
         for i in stories:
@@ -230,8 +230,8 @@ def confirmDelete(project_id, type, type_id):
                                 feature=feature, sq=storyQuantity,
                                 acq=acQuantity, type=type, type_id=type_id)
     if type == 'Story':
-        story = session.query(Story).filter(Story.story_id(type_id)).one()
-        feature = session.query(Feature).filter(Feature.feature_id(story.feature_id)).one()
+        story = session.query(Story).filter_by(id=type_id).one()
+        feature = session.query(Feature).filter(Feature.id(story.feature_id)).one()
         ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id(story.id)).all()
         acQuantity = 0
         for i in ac:
@@ -271,10 +271,13 @@ def deleteAction(project_id, type, type_id):
             session.commit()
             flash("Project & All Components Removed")
             return redirect(url_for('mainPage'))
-        else:
-            return redirect(url_for('mainPage'))
+        if type == 'Role':
+            role = session.query(Role).filter_by(id=type_id).one()
+            session.delete(role)
+            session.commit()
+            return redirect(url_for('projectDash', project_id=project.id))
         if type == 'Feature':
-            feature = session.query(Feature).filter_by(feature_id=type_id).one()
+            feature = session.query(Feature).filter_by(id=type_id).one()
             stories = session.query(Story).filter_by(feature_id=feature.id).all()
             storyids = []
             for i in stories:
@@ -287,10 +290,8 @@ def deleteAction(project_id, type, type_id):
             session.delete(feature)
             session.commit()
             return redirect(url_for('projectDash', project_id=project.id))
-        else:
-            return redirect(url_for('projectDash', project_id=project.id))
         if type == 'Story':
-            story = session.query(Story).filter_by(story_id=type_id).one()
+            story = session.query(Story).filter_by(id=type_id).one()
             ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id(story.id)).all()
             for i in ac:
                 session.delete(i)
@@ -303,7 +304,7 @@ def deleteAction(project_id, type, type_id):
             return redirect(url_for('projectDash', project_id=project.id))
 
     else:
-        return redirect(url_for('mainPage'))
+        return redirect(url_for('projectDash', project_id=project.id))
 
 
 # JSON Pages---------------------------

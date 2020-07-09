@@ -18,27 +18,26 @@
               <p>
                 {% if type == 'Project' %}
                   <b>Project:</b> {{project.title}} - ({{project.shortname}})<br>
-                  <b>Description:</b> {{project.description}}
+                  <b>Description:</b> {{project.description}}<br>
                 {% endif %}
 
                 {% if type == 'Role' %}
-                  <b>Role:</b> {{role.title}}
-                  <b>Description:</b> {{role.description}}
+                  <b>Role:</b> {{role.title}}<br>
+                  <b>Description:</b> {{role.description}}<br>
                   <b>From project:</b> {{project.title}} - ({{project.shortname}})<br>
                 {% endif %}
 
                 {% if type == 'Feature' %}
-                  <b>Feature:</b> {{feature.title}}
-                  <b>Description:</b> {{feature.description}}
+                  <b>Feature:</b> {{feature.title}}<br>
+                  <b>Description:</b> {{feature.description}}<br>
                   <b>From project:</b> {{project.title}} - ({{project.shortname}})<br>
                 {% endif %}
 
                 {% if type == 'Story' %}
-                  <b>Story:</b> As a {{story.role.title}}, I want {{story.want}}, so that {{story.why}}.
-                  <b>From feature:</b> {{feature.title}}
+                  <b>Story:</b> As a {{story.role.title}}, I want {{story.want}}, so that {{story.why}}.<br>
+                  <b>From feature:</b> {{feature.title}}<br>
                   <b>From project:</b> {{project.title}} - ({{project.shortname}})<br>
                 {% endif %}
-
               </p>
             </div>
           </div>
