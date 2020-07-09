@@ -28,7 +28,7 @@
               <p>{{i.description}}</p>
               <p>
                 <a class="btn btn-secondary btn-sm" href="{{url_for('projectDash', project_id=i.id)}}" role="button">View details &raquo;</a>
-                <a class="btn btn-outline-danger btn-sm" href="{{url_for('confirmDeleteProject', project_id=i.id)}}" role="button">Delete</a>
+                <a class="btn btn-outline-danger btn-sm" href="{{url_for('confirmDelete', project_id=i.id, type='Project', type_id=i.id)}}" role="button">Delete</a>
               </p>
             </div>
           {% endfor %}

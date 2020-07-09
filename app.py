@@ -182,60 +182,126 @@ def createStory(project_id, feature_id):
 # Delete-Confirm Project
 # receives project id, warns deletion removes all ac, stories, and features
 # offers confirm or cancel, confirm passes to deletion & cancel returns
-@app.route('/confirm/deleteproject/<int:project_id>')
-def confirmDeleteProject(project_id):
+@app.route('/confirm/delete/project/<int:project_id>/type?<string:type>&typeid?<int:type_id>')
+def confirmDelete(project_id, type, type_id):
     project = session.query(Project).filter_by(id=project_id).one()
-    features = session.query(Feature).filter_by(project_id=project_id).all()
-    featureids = []
-    featureQuantity = 0
-    for i in features:
-        # compile list of feature ids in project
-        featureids.append(i.id)
-        featureQuantity += 1
-    stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
-    storyids = []
-    storyQuantity = 0
-    for i in stories:
-        # compile list of story ids in stories
-        storyids.append(i.id)
-        storyQuantity += 1
-    ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
-    acQuantity = 0
-    for i in ac:
-        acQuantity += 1
-    return render_template('delete-project.html', project=project,
-                            fq=featureQuantity, sq=storyQuantity,
-                            acq=acQuantity)
+    if type == 'Project':
+        features = session.query(Feature).filter_by(project_id=project_id).all()
+        featureids = []
+        featureQuantity = 0
+        for i in features:
+            # compile list of feature ids in project
+            featureids.append(i.id)
+            featureQuantity += 1
+        stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
+        storyids = []
+        storyQuantity = 0
+        for i in stories:
+            # compile list of story ids in stories
+            storyids.append(i.id)
+            storyQuantity += 1
+        ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
+        acQuantity = 0
+        for i in ac:
+            acQuantity += 1
+        return render_template('delete-confirm.html', project=project,
+                                fq=featureQuantity, sq=storyQuantity,
+                                acq=acQuantity, type=type, type_id=type_id)
 
+    if type == 'Role':
+        role = session.query(Role).filter(Role.role_id(type_id)).one()
+        return render_template('delete-confirm.html', project=project,
+                                type=type, type_id=type_id, role=role)
+
+    if type == 'Feature':
+        feature = session.query(Feature).filter(Feature.feature_id(type_id)).one()
+        stories = session.query(Story).filter(Story.feature_id(type_id)).all()
+        storyids = []
+        storyQuantity = 0
+        for i in stories:
+            # compile list of story ids in stories
+            storyids.append(i.id)
+            storyQuantity += 1
+        ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
+        acQuantity = 0
+        for i in ac:
+            acQuantity += 1
+        return render_template('delete-confirm.html', project=project,
+                                feature=feature, sq=storyQuantity,
+                                acq=acQuantity, type=type, type_id=type_id)
+    if type == 'Story':
+        story = session.query(Story).filter(Story.story_id(type_id)).one()
+        feature = session.query(Feature).filter(Feature.feature_id(story.feature_id)).one()
+        ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id(story.id)).all()
+        acQuantity = 0
+        for i in ac:
+            acQuantity += 1
+        return render_template('delete-confirm.html', project=project,
+                                story=story, acq=acQuantity, type=type,
+                                type_id=type_id)
+    else:
+        return render_template('project-dash.html', project_id=project.id)
 
 # Delete Pages-------------------------
 
 # receives project id after confirmation, grabs features, stories, ac
 # deletes ac, stories, features, and project, returns to main
-@app.route('/delete/project/<int:project_id>', methods=['GET', 'POST'])
-def deleteProject(project_id):
+@app.route('/delete/project/<int:project_id>/type?<string:type>&typeid?<int:type_id>', methods=['GET', 'POST'])
+def deleteAction(project_id, type, type_id):
     if request.method == 'POST':
         project = session.query(Project).filter_by(id=project_id).one()
-        features = session.query(Feature).filter_by(project_id=project_id).all()
-        featureids = []
-        for i in features:
-            # compile list of feature ids in project
-            featureids.append(i.id)
-        stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
-        storyids = []
-        for i in stories:
-            storyids.append(i.id)
-        ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
-        for i in ac:
-            session.delete(i)
-        for i in stories:
-            session.delete(i)
-        for i in features:
-            session.delete(i)
-        session.delete(project)
-        session.commit()
-        flash("Project & All Components Removed")
-        return redirect(url_for('mainPage'))
+        if type == 'Project':
+            features = session.query(Feature).filter_by(project_id=project_id).all()
+            featureids = []
+            for i in features:
+                # compile list of feature ids in project
+                featureids.append(i.id)
+            stories = session.query(Story).filter(Story.feature_id.in_(featureids)).all()
+            storyids = []
+            for i in stories:
+                storyids.append(i.id)
+            ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
+            for i in ac:
+                session.delete(i)
+            for i in stories:
+                session.delete(i)
+            for i in features:
+                session.delete(i)
+            session.delete(project)
+            session.commit()
+            flash("Project & All Components Removed")
+            return redirect(url_for('mainPage'))
+        else:
+            return redirect(url_for('mainPage'))
+        if type == 'Feature':
+            feature = session.query(Feature).filter_by(feature_id=type_id).one()
+            stories = session.query(Story).filter_by(feature_id=feature.id).all()
+            storyids = []
+            for i in stories:
+                storyids.append(i.id)
+            ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id.in_(storyids)).all()
+            for i in ac:
+                session.delete(i)
+            for i in stories:
+                session.delete(i)
+            session.delete(feature)
+            session.commit()
+            return redirect(url_for('projectDash', project_id=project.id))
+        else:
+            return redirect(url_for('projectDash', project_id=project.id))
+        if type == 'Story':
+            story = session.query(Story).filter_by(story_id=type_id).one()
+            ac = session.query(AcceptanceCriteria).filter(AcceptanceCriteria.story_id(story.id)).all()
+            for i in ac:
+                session.delete(i)
+            for i in stories:
+                session.delete(i)
+            session.delete(story)
+            session.commit()
+            return redirect(url_for('projectDash', project_id=project.id))
+        else:
+            return redirect(url_for('projectDash', project_id=project.id))
+
     else:
         return redirect(url_for('mainPage'))
 
