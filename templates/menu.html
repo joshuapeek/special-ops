@@ -7,16 +7,14 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
 
-      <!-- Project Name in menu? not sure about it...
+
+      <!-- Project Dashboard Link -->
       {% if project is defined %}
-      <li class="menu-project-title nav-link px-2">
-        {{project.title}}
+      <li class="nav-link px-2">
+        <a style="color:inherit" href="{{url_for('projectDash',project_id=project.id)}}">Project Dashboard</a>
       </li>
       {% endif %}
-      <li class="nav-link px-2">
-        SPACER
-      </li>
-      <!-- END Roles Links -->
+      <!-- END Project Dash Link -->
 
       <!-- Roles Links -->
       {% if roles is defined %}
