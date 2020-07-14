@@ -15,7 +15,7 @@
         <div class="container">
           <!-- Example row of columns -->
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <h2>{{project.title}} - ({{project.shortname}})</h2>
               <p>
                 {{project.description}}
@@ -35,74 +35,43 @@
               </p>
 
             </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- User Stories -->
-      <section class="p-4">
-
-        <div class="container">
-          <!-- Optional Section Header -->
-          <div class="row">
-            <div class="col-md-12">
-              <h3>Roles</h3>
-            </div>
-          </div>
-
-          <div class="row">
-            {% for i in roles %}
-
-
-              <div class="col-md-3 user-story">
+            <div class="col-md-6">
+              <div class="col-md-12 user-story">
                 <div class="card">
-                  <!--<h5 class="card-header">{{i.title}}
-                  </h5>-->
                   <div class="card-body">
-                    <a href="{{url_for('confirmDelete', project_id=project.id, type='Role', type_id=i.id)}}">
-                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x float-right" fill="#ff0800" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
-                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
-                      </svg>
-                    </a>
-                    <br>
                     <center>
-                      <img width="30%" src="../../../../static/images/profile.png">
-                      <h5 data-toggle="tooltip" title="{{i.description}}">
-                        {{i.title}}
-                      </h5>
+                      <h3>Roles</h3>
+                      <!--<img width="30%" src="../../../../static/images/profile.png">-->
                     </center>
+                      <ul class="list-group list-group-flush">
+                        {% for i in roles %}
+                        <li class="list-group-item" data-toggle="tooltip" title="{{i.description}}">{{i.title}}
+                          <a href="{{url_for('confirmDelete', project_id=project.id, type='Role', type_id=i.id)}}">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x float-right" fill="#ff0800" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                              <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+                            </svg>
+                          </a>
+                        </li>
+                        {% endfor %}
+                        <li class="list-group-item">
+                          <a type="button" data-toggle="modal" data-target="#create-role" href="#create-role">Add a Role</a>
+                        </li>
+
+                      </ul>
                     <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
                   </div>
                 </div>
               </div>
 
-            {% endfor %}
-
-
-            <!-- Ghost -->
-            <div class="col-md-3 user-story">
-              <div class="card ghost-card">
-                <div class="card-body">
-                  <center>
-                    <a type="button" data-toggle="modal" data-target="#create-role" href="#create-role">
-                      <img src="../../static/images/plus.png" width="25%">
-                    </a>
-                    <p class="card-text">
-                      Add a Role
-                    </p>
-                  </center>
-                </div>
-              </div>
             </div>
-            <!-- End Ghost -->
 
-          </div>
+          </div> <!-- /container -->
+        </div>
+      </section>
 
-        </div> <!-- /container -->
-
-        <br class="m-4">
-
+      <section class="p-4">
         <div class="container">
           <!-- Optional Section Header -->
           <div class="row">
