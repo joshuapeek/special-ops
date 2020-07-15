@@ -59,7 +59,7 @@ def projectDash(project_id):
             if i.scope == 'out':
                 scope = 'contains'
     return render_template('project-dash.html', project=project, roles=roles,
-                            features=features, scope=scope)
+                            features=features, scope=scope, stories=stories)
 
 # Feature Page
 # displays all Roles and Features in selected Project
