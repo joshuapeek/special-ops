@@ -177,6 +177,30 @@ def createStory(project_id, feature_id):
         return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
 
 
+# UPDATE Pages-------------------------
+
+# Update Stories Page
+# receives, updates story & acceptance criteria data
+@app.route('/project=<int:project_id>&feature?<int:feature_id>&story=<int:story_id>&updatestory', methods=['GET', 'POST'])
+def updateStory(project_id, feature_id, story_id):
+    project = session.query(Project).filter_by(id=project_id).one()
+    feature = session.query(Feature).filter_by(id=feature_id).one()
+    story = session.query(Story).filter_by(id=story_id).one()
+    if request.method == 'POST':
+        if request.form['scope']:
+            story.scope = request.form['scope'],
+            story.want = request.form['want'],
+            story.why = request.form['why'],
+            story.role = request.form['role']
+        session.add(story)
+        session.commit()
+        session.refresh(story)
+        flash("Story Edited Successfully")
+        return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
+    else:
+        return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
+
+
 # Delete-Confirm Pages-------------------------
 
 # Delete-Confirm Project
