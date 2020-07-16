@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  {% include "head.html" %}
+  <body>
+
+    {% include "menu.html" %}
+
+    <main role="main">
+      <div class="container">
+        <section class="p-4">
+        <!-- Feature Header -->
+
+          <!-- Example row of columns -->
+          <div class="row">
+            <div class="col-md-12">
+              <h2>Update Story</h2>
+            </div>
+          </div>
+        </section>
+
+      <!-- User Stories -->
+        <section class="p-4">
+
+          <!-- Optional Section Header -->
+          <div class="row">
+            <div class="col-md-12">
+              <h3>User Story: {{project.shortname}}-{{feature.shortname}}-{{story.id}}</h3>
+              <p style="margin-left:2.5rem">As a(n) {{story.role.title}}, I want {{story.want}}, so that {{story.why}}.</p>
+              <b>Acceptance Criteria</b>
+              <p>
+                <ul>
+                  {% for i in ac %}
+                    <li>{{i.criteria}}</li>
+                  {% endfor %}
+                </ul>
+              </p>
+            </div>
+          </div>
+        </section>
+      </div> <!-- /container -->
+
+        <hr>
+
+    </main>
+
+    {% include "footer.html" %}
+
+  </body>
+</html>

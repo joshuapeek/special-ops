@@ -31,11 +31,12 @@ session = DBSession()
 @app.route('/')
 def mainPage():
     projects = session.query(Project).all()
+    flash("Welcome")
     return render_template('main.html', projects=projects)
 
 # Project Dash
 # displays all Roles and Features in selected Project
-@app.route('/project/<int:project_id>')
+@app.route('/project?<int:project_id>')
 def projectDash(project_id):
     project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
@@ -63,7 +64,7 @@ def projectDash(project_id):
 
 # Feature Page
 # displays all Roles and Features in selected Project
-@app.route('/project/<int:project_id>/feature/<int:feature_id>')
+@app.route('/project?<int:project_id>&feature?<int:feature_id>')
 def featurePage(project_id, feature_id):
     project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
@@ -91,7 +92,7 @@ def featurePage(project_id, feature_id):
 
 # Role Testing Page
 # displays all Roles and Features in selected Project
-@app.route('/project/<int:project_id>/role/<int:role_id>')
+@app.route('/project?<int:project_id>&role?<int:role_id>&testing')
 def roleTestPage(project_id, role_id):
     project = session.query(Project).filter_by(id=project_id).one()
     roles = session.query(Role).filter_by(project_id=project_id).all()
@@ -122,7 +123,7 @@ def createProject():
 
 # Create Feature Page
 # receives data, creates feature, returns to project page
-@app.route('/project/<int:project_id>/createfeature', methods=['GET', 'POST'])
+@app.route('/project?<int:project_id>&createfeature', methods=['GET', 'POST'])
 def createFeature(project_id):
     project = session.query(Project).filter_by(id=project_id).one()
     if request.method == 'POST':
@@ -141,7 +142,7 @@ def createFeature(project_id):
 
 # Create Role Page
 # receives data, creates feature, returns to project page
-@app.route('/project/<int:project_id>/createRole', methods=['GET', 'POST'])
+@app.route('/project?<int:project_id>&createRole', methods=['GET', 'POST'])
 def createRole(project_id):
     project = session.query(Project).filter_by(id=project_id).one()
     if request.method == 'POST':
@@ -158,7 +159,7 @@ def createRole(project_id):
 
 # Create Story Page
 # receives data, creates feature, returns to project page
-@app.route('/project/<int:project_id>/feature/<int:feature_id>/createstory', methods=['GET', 'POST'])
+@app.route('/project?<int:project_id>&feature?<int:feature_id>&createstory', methods=['GET', 'POST'])
 def createStory(project_id, feature_id):
     project = session.query(Project).filter_by(id=project_id).one()
     feature = session.query(Feature).filter_by(id=feature_id).one()
@@ -186,6 +187,9 @@ def updateStory(project_id, feature_id, story_id):
     project = session.query(Project).filter_by(id=project_id).one()
     feature = session.query(Feature).filter_by(id=feature_id).one()
     story = session.query(Story).filter_by(id=story_id).one()
+    ac = session.query(AcceptanceCriteria).filter_by(story_id=story_id).all()
+    roles = session.query(Role).filter_by(project_id=project_id).all()
+    features = session.query(Feature).filter_by(project_id=project_id).all()
     if request.method == 'POST':
         if request.form['scope']:
             story.scope = request.form['scope'],
@@ -198,7 +202,8 @@ def updateStory(project_id, feature_id, story_id):
         flash("Story Edited Successfully")
         return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
     else:
-        return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
+        return render_template('update-story.html', project=project, roles=roles,
+                                feature=feature, story=story, ac=ac, features=features,)
 
 
 # Delete-Confirm Pages-------------------------
@@ -206,7 +211,7 @@ def updateStory(project_id, feature_id, story_id):
 # Delete-Confirm Project
 # receives project id, warns deletion removes all ac, stories, and features
 # offers confirm or cancel, confirm passes to deletion & cancel returns
-@app.route('/confirm/delete/project/<int:project_id>/type?<string:type>&typeid?<int:type_id>')
+@app.route('/project?<int:project_id>&type?<string:type>&typeid?<int:type_id>/confirmdelete')
 def confirmDelete(project_id, type, type_id):
     project = session.query(Project).filter_by(id=project_id).one()
     if type == 'Project':
@@ -270,7 +275,7 @@ def confirmDelete(project_id, type, type_id):
 
 # receives project id after confirmation, grabs features, stories, ac
 # deletes ac, stories, features, and project, returns to main
-@app.route('/delete/project/<int:project_id>/type?<string:type>&typeid?<int:type_id>', methods=['GET', 'POST'])
+@app.route('/deletefrom?<int:project_id>/type?<string:type>&typeid?<int:type_id>', methods=['GET', 'POST'])
 def deleteAction(project_id, type, type_id):
     if request.method == 'POST':
         project = session.query(Project).filter_by(id=project_id).one()
