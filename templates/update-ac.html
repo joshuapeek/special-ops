@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  {% include "head.html" %}
+  <body>
+
+    {% include "menu.html" %}
+
+    <main role="main">
+      <div class="container">
+        <section class="p-4">
+        <!-- Feature Header -->
+
+          <!-- Example row of columns -->
+          <div class="row">
+            <div class="col-md-12">
+              << Back to Feature: <a href="{{url_for('featurePage', project_id=project.id, feature_id=feature.id)}}">{{feature.title}}</a>
+              << <a href="{{url_for('updateStory', project_id=project.id, feature_id=feature.id, story_id=story.id)}}">Back to Story</a>
+            </div>
+          </div>
+        </section>
+
+      <!-- User Stories -->
+        <section class="p-4">
+
+          <!-- User Story Row -->
+          <div class="row">
+            <div class="col-md-12">
+              <h3>User Story: {{project.shortname}}-{{feature.shortname}}-{{story.id}}</h3>
+              <br>
+              <p style="margin-left:2.5rem">
+                <b>As a(n) {{story.role.title}}, I want {{story.want}}, so that {{story.why}}.</b>
+              </p>
+              <br>
+              <form class="needs-validation" action='{{url_for('updateAC', project_id=project.id, feature_id=feature.id, story_id=story.id, ac_id=ac.id)}}' method='post'>
+                <!-- AC & SCOPE ROW -->
+                <div class="row">
+                  <div class="col-md-10 mb-3 mx-auto">
+                  <b>Edit Acceptance Criteria</b>
+                    <div class="input-group mb-2">
+                      <input type="text" class="form-control" id="criteria" name="criteria" value="{{ac.criteria}}">
+                    </div>
+                    <br>
+                  </div>
+                </div>
+                <!-- END AC ROW -->
+
+                <br>
+
+                <!-- row -->
+                <div class="row mx-auto mt-5">
+                    <div class="col-md-6 mb-3 mx-auto">
+                      <button class="btn btn-primary btn-lg btn-block float-right" type="Create">Continue</button>
+                    </div>
+                </form>
+                    <div class="col-md-6 mb-3 mx-auto">
+                      <form action="{{url_for('updateStory', project_id=project.id, feature_id=feature.id, story_id=story.id)}}">
+                        <button class="btn btn-secondary btn-lg btn-block"
+                          type="submit" data-dismiss="modal" aria-label="Close">Cancel</button>
+                      </form>
+                    </div>
+                </div>
+                <!-- end of row -->
+
+            </div>
+          </div>
+        </section>
+      </div> <!-- /container -->
+
+        <hr>
+
+    </main>
+
+    {% include "footer.html" %}
+
+  </body>
+</html>

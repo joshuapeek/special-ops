@@ -158,7 +158,7 @@ def createRole(project_id):
         return redirect(url_for('projectDash', project_id=project.id))
 
 # Create Story Page
-# receives data, creates feature, returns to project page
+# receives data, creates story, returns to project page
 @app.route('/project?<int:project_id>&feature?<int:feature_id>&createstory', methods=['GET', 'POST'])
 def createStory(project_id, feature_id):
     project = session.query(Project).filter_by(id=project_id).one()
@@ -178,10 +178,28 @@ def createStory(project_id, feature_id):
         return redirect(url_for('featurePage', project_id=project.id, feature_id=feature.id))
 
 
+# Create AC Page
+# receives data, creates AC, returns to story page
+@app.route('/project?<int:project_id>&feature?<int:feature_id>&story?<int:story_id>&createac', methods=['GET', 'POST'])
+def createAC(project_id, feature_id, story_id):
+    project = session.query(Project).filter_by(id=project_id).one()
+    feature = session.query(Feature).filter_by(id=feature_id).one()
+    if request.method == 'POST':
+        createAC = AcceptanceCriteria(criteria=request.form['criteria'],
+                        story_id=story_id)
+        session.add(createAC)
+        session.commit()
+        session.refresh(createAC)
+        flash("New Acceptance Criteria Created!")
+        return redirect(url_for('updateStory', project_id=project.id, feature_id=feature.id, story_id=story_id))
+    else:
+        return redirect(url_for('updateStory', project_id=project.id, feature_id=feature.id, story_id=story_id))
+
+
 # UPDATE Pages-------------------------
 
 # Update Stories Page
-# receives, updates story & acceptance criteria data
+# receives, updates story; displayes acceptance criteria
 @app.route('/project=<int:project_id>&feature?<int:feature_id>&story=<int:story_id>&updatestory', methods=['GET', 'POST'])
 def updateStory(project_id, feature_id, story_id):
     project = session.query(Project).filter_by(id=project_id).one()
@@ -204,6 +222,30 @@ def updateStory(project_id, feature_id, story_id):
     else:
         return render_template('update-story.html', project=project, roles=roles,
                                 feature=feature, story=story, ac=ac, features=features,)
+
+# Update AC Page
+# receives, updates AC data
+@app.route('/project=<int:project_id>&feature?<int:feature_id>&story=<int:story_id>&ac=<int:ac_id>&updateac', methods=['GET', 'POST'])
+def updateAC(project_id, feature_id, story_id, ac_id):
+    project = session.query(Project).filter_by(id=project_id).one()
+    feature = session.query(Feature).filter_by(id=feature_id).one()
+    story = session.query(Story).filter_by(id=story_id).one()
+    allac = session.query(AcceptanceCriteria).filter_by(story_id=story_id).all()
+    ac = session.query(AcceptanceCriteria).filter_by(id=ac_id).one()
+    roles = session.query(Role).filter_by(project_id=project_id).all()
+    features = session.query(Feature).filter_by(project_id=project_id).all()
+    if request.method == 'POST':
+        if request.form['criteria']:
+            ac.criteria = request.form['criteria']
+        session.add(ac)
+        session.commit()
+        session.refresh(ac)
+        flash("Acceptance Criteria Edited Successfully")
+        return redirect(url_for('updateStory', project_id=project.id, feature_id=feature.id, story_id=story.id))
+    else:
+        return render_template('update-ac.html', project=project, roles=roles,
+                                feature=feature, story=story, ac=ac,
+                                allac=allac, features=features,)
 
 
 # Delete-Confirm Pages-------------------------
